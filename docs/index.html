@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signal Horizon — live preview</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #03040a; height: 100%; overflow: hidden; }
+  #scene { display: block; width: 100vw; }
+  #bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 10px 16px;
+    background: rgba(3, 4, 10, 0.82);
+    border-top: 1px solid rgba(120, 140, 180, 0.15);
+    font: 13px/1.4 system-ui, sans-serif; color: #9aa7c0;
+  }
+  #bar .title { color: #dfe6f5; font-weight: 600; margin-right: 6px; }
+  #bar button {
+    background: rgba(120, 140, 180, 0.12); color: #c6d0e4;
+    border: 1px solid rgba(120, 140, 180, 0.25); border-radius: 6px;
+    padding: 4px 10px; font: 12px system-ui, sans-serif; cursor: pointer;
+  }
+  #bar button.active { background: rgba(120, 160, 220, 0.3); color: #fff; }
+  #bar a { color: #8fb4e8; text-decoration: none; margin-left: auto; }
+  #bar a:hover { text-decoration: underline; }
+  #skyinfo { color: #66738c; font-size: 12px; }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="bar">
+  <span class="title">Signal Horizon</span>
+  <button id="viewMonitor" class="active">One monitor</button>
+  <button id="viewPano">Full panorama</button>
+  <span>live sky over</span>
+  <button data-lat="43.6532" data-lon="-79.3832" class="active">Toronto</button>
+  <button data-lat="40.7128" data-lon="-74.0060">New York</button>
+  <button data-lat="51.5074" data-lon="-0.1278">London</button>
+  <button data-lat="35.6762" data-lon="139.6503">Tokyo</button>
+  <button data-lat="-33.8688" data-lon="151.2093">Sydney</button>
+  <span id="skyinfo"></span>
+  <a href="https://github.com/aDirtyScoundrel/signal-horizon-wallpaper">Get the Plasma 6 wallpaper &rarr;</a>
+</div>
+<script src="stars.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
