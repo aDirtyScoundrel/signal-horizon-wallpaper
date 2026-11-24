@@ -1,0 +1,19 @@
+{
+    "KPackageStructure": "Plasma/Wallpaper",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Hadaly",
+                "Email": ""
+            }
+        ],
+        "Category": "",
+        "Description": "Animated dark seascape under the real current night sky. One continuous scene across all monitors.",
+        "Icon": "preferences-desktop-wallpaper",
+        "Id": "dev.hadaly.signalhorizon",
+        "License": "MIT",
+        "Name": "Signal Horizon",
+        "Version": "1.0.0"
+    },
+    "X-KDE-ParentApp": "org.kde.plasmashell"
+}
