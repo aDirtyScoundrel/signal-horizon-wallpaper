@@ -3,7 +3,11 @@
 An animated Plasma 6 wallpaper. A dark abstract seascape sits under the
 real current night sky. One continuous scene spans all your monitors.
 
-![preview](preview.png)
+**[▶ Open the live preview](https://adirtyscoundrel.github.io/signal-horizon-wallpaper/)**
+— the wallpaper runs in your browser with the real sky. Switch cities
+(Toronto, New York, London, Tokyo, Sydney) or view the full panorama.
+
+![animated preview](docs/preview.gif)
 
 ## What you see
 
