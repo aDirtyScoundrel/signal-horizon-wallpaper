@@ -5,6 +5,9 @@
 "use strict";
 
 var CFG = { lat: 43.6532, lon: -79.3832, hue: 210, speed: 1, intensity: 1 };
+function isNL() {
+    return CFG.lat > 50.7 && CFG.lat < 53.6 && CFG.lon > 3.3 && CFG.lon < 7.3;
+}
 var TOTAL_W = 7680, SCENE_H = 1440;
 var SEA_LINE = SCENE_H * 0.66;
 
@@ -306,8 +309,35 @@ function buildStatic() {
         ctx.restore();
     }
 
-    // Lighthouse headland + tower (beam and lamp glow are animated).
+    // Landmark: windmill body in the Netherlands, else lighthouse.
     var lhX = LH_X;
+    if (isNL()) {
+        var baseY = seaLine;
+        var towerH = H * 0.17;
+        var topY = baseY - towerH;
+        ctx.beginPath();
+        ctx.moveTo(lhX - 200, baseY + 30);
+        ctx.quadraticCurveTo(lhX - 100, baseY - 14, lhX, baseY - 12);
+        ctx.quadraticCurveTo(lhX + 110, baseY - 10, lhX + 210, baseY + 30);
+        ctx.closePath();
+        ctx.fillStyle = "#060a12";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(lhX - 34, baseY - 8);
+        ctx.quadraticCurveTo(lhX - 26, baseY - towerH * 0.5, lhX - 16, topY + 6);
+        ctx.lineTo(lhX + 16, topY + 6);
+        ctx.quadraticCurveTo(lhX + 26, baseY - towerH * 0.5, lhX + 34, baseY - 8);
+        ctx.closePath();
+        ctx.fillStyle = "#0a1120";
+        ctx.fill();
+        ctx.fillStyle = "#16203a";
+        ctx.fillRect(lhX - 30, baseY - towerH * 0.45, 60, 4);
+        ctx.beginPath();
+        ctx.ellipse(lhX, topY + 4, 18, 12, 0, Math.PI, 0);
+        ctx.closePath();
+        ctx.fillStyle = "#0a1120";
+        ctx.fill();
+    } else {
     var baseY = seaLine;
     var towerH = H * 0.16;
     var topY = baseY - towerH;
@@ -331,6 +361,7 @@ function buildStatic() {
     ctx.fillRect(lhX - 12, topY + towerH * 0.45, 24, 7);
     ctx.fillStyle = "#0a1120";
     ctx.fillRect(lhX - 10, topY, 20, 14);
+    }
 }
 
 // --- Per-frame dynamic pass. ---
@@ -468,8 +499,63 @@ function drawDynamic(ctx, t) {
         ctx.fillRect(gx3, gy2, len, 1.2);
     }
 
-    // Lighthouse lamp + beam + water glints.
+    // Landmark animation: windmill sails, or lighthouse lamp + beam.
     var lhX = LH_X;
+    if (isNL()) {
+        var towerH = H * 0.17;
+        var topY = seaLine - towerH;
+        var pulse = 0.8 + 0.2 * Math.sin(t * 0.3 * sp);
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        var wglow = ctx.createRadialGradient(lhX, seaLine - towerH * 0.62, 1, lhX, seaLine - towerH * 0.62, 26);
+        wglow.addColorStop(0, hsl(42, 30, 80, 0.10 * inten * pulse));
+        wglow.addColorStop(1, hsl(42, 30, 80, 0));
+        ctx.fillStyle = wglow;
+        ctx.fillRect(lhX - 26, seaLine - towerH * 0.62 - 26, 52, 52);
+        ctx.fillStyle = hsl(42, 35, 82, 0.6 * pulse);
+        ctx.fillRect(lhX - 3, seaLine - towerH * 0.62 - 4, 6, 8);
+        ctx.restore();
+        var hubX = lhX + 2, hubY = topY + 2;
+        var R = H * 0.145;
+        var ang = t * 0.18 * sp;
+        ctx.save();
+        ctx.globalCompositeOperation = "source-over";
+        ctx.strokeStyle = "#0d1526";
+        ctx.fillStyle = "#26334e";
+        for (var bk = 0; bk < 4; bk++) {
+            var ba = ang + bk * Math.PI / 2;
+            var dx = Math.cos(ba), dy = Math.sin(ba);
+            var px = -dy, py = dx;
+            var tipX = hubX + dx * R, tipY = hubY + dy * R;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(hubX, hubY);
+            ctx.lineTo(tipX, tipY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(hubX + dx * R * 0.18 + px * 6, hubY + dy * R * 0.18 + py * 6);
+            ctx.lineTo(tipX + px * 28, tipY + py * 28);
+            ctx.lineTo(tipX - px * 4, tipY - py * 4);
+            ctx.lineTo(hubX + dx * R * 0.18 - px * 4, hubY + dy * R * 0.18 - py * 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 1;
+            for (var cb = 1; cb <= 4; cb++) {
+                var f = 0.18 + cb * 0.18;
+                var cx2 = hubX + dx * R * f, cy2 = hubY + dy * R * f;
+                ctx.beginPath();
+                ctx.moveTo(cx2 - px * 4, cy2 - py * 4);
+                ctx.lineTo(cx2 + px * 26, cy2 + py * 26);
+                ctx.stroke();
+            }
+        }
+        ctx.fillStyle = "#16203a";
+        ctx.beginPath();
+        ctx.arc(hubX, hubY, 4, 0, 6.2832);
+        ctx.fill();
+        ctx.restore();
+        ctx.restore();
+    } else {
     var towerH = H * 0.16;
     var lampY = seaLine - towerH + 7;
     var pulse = 0.8 + 0.2 * Math.sin(t * 0.3 * sp);
@@ -513,6 +599,7 @@ function drawDynamic(ctx, t) {
         ctx.fillRect(wx - wl / 2, wy, wl, 1.2);
     }
     ctx.restore();
+    }
 
     // Fishing boat.
     var bob = Math.sin(t * 0.5 * sp) * 1.8;

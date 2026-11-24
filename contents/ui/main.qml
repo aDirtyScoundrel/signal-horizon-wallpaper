@@ -490,9 +490,92 @@ WallpaperItem {
             }
             ctx.restore();
 
-            // --- Lighthouse on a headland left of center: balances the moon. ---
+            // --- Landmark left of center: a windmill in the Netherlands,
+            // otherwise a lighthouse. Both balance the moon. ---
             var lhX = TOTAL_W * 0.397 - mx;
-            if (lhX > -400 && lhX < W + 400) {
+            var isNL = root.lat > 50.7 && root.lat < 53.6 && root.lon > 3.3 && root.lon < 7.3;
+            if (isNL && lhX > -400 && lhX < W + 400) {
+                var baseY = seaLine;
+                var towerH = H * 0.17;
+                var topY = baseY - towerH;
+                // Low dike mound.
+                ctx.beginPath();
+                ctx.moveTo(lhX - 200, baseY + 30);
+                ctx.quadraticCurveTo(lhX - 100, baseY - 14, lhX, baseY - 12);
+                ctx.quadraticCurveTo(lhX + 110, baseY - 10, lhX + 210, baseY + 30);
+                ctx.closePath();
+                ctx.fillStyle = "#060a12";
+                ctx.fill();
+                // Tapered smock body.
+                ctx.beginPath();
+                ctx.moveTo(lhX - 34, baseY - 8);
+                ctx.quadraticCurveTo(lhX - 26, baseY - towerH * 0.5, lhX - 16, topY + 6);
+                ctx.lineTo(lhX + 16, topY + 6);
+                ctx.quadraticCurveTo(lhX + 26, baseY - towerH * 0.5, lhX + 34, baseY - 8);
+                ctx.closePath();
+                ctx.fillStyle = "#0a1120";
+                ctx.fill();
+                // Stage (balcony ring).
+                ctx.fillStyle = "#16203a";
+                ctx.fillRect(lhX - 30, baseY - towerH * 0.45, 60, 4);
+                // Cap.
+                ctx.beginPath();
+                ctx.ellipse(lhX, topY + 4, 18, 12, 0, Math.PI, 0);
+                ctx.closePath();
+                ctx.fillStyle = "#0a1120";
+                ctx.fill();
+                // Warm window.
+                var pulse = 0.8 + 0.2 * Math.sin(t * 0.3 * sp);
+                ctx.save();
+                ctx.globalCompositeOperation = "lighter";
+                var wglow = ctx.createRadialGradient(lhX, baseY - towerH * 0.62, 1, lhX, baseY - towerH * 0.62, 26);
+                wglow.addColorStop(0, hsl(42, 30, 80, 0.10 * inten * pulse));
+                wglow.addColorStop(1, hsl(42, 30, 80, 0));
+                ctx.fillStyle = wglow;
+                ctx.fillRect(lhX - 26, baseY - towerH * 0.62 - 26, 52, 52);
+                ctx.fillStyle = hsl(42, 35, 82, 0.6 * pulse);
+                ctx.fillRect(lhX - 3, baseY - towerH * 0.62 - 4, 6, 8);
+                ctx.restore();
+                // Four rotating sails.
+                var hubX = lhX + 2, hubY = topY + 2;
+                var R = H * 0.145;
+                var ang = t * 0.18 * sp;
+                ctx.save();
+                ctx.strokeStyle = "#0d1526";
+                ctx.fillStyle = "#26334e";
+                for (var bk = 0; bk < 4; bk++) {
+                    var ba = ang + bk * Math.PI / 2;
+                    var dx = Math.cos(ba), dy = Math.sin(ba);
+                    var px = -dy, py = dx;
+                    var tipX = hubX + dx * R, tipY = hubY + dy * R;
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    ctx.moveTo(hubX, hubY);
+                    ctx.lineTo(tipX, tipY);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(hubX + dx * R * 0.18 + px * 6, hubY + dy * R * 0.18 + py * 6);
+                    ctx.lineTo(tipX + px * 28, tipY + py * 28);
+                    ctx.lineTo(tipX - px * 4, tipY - py * 4);
+                    ctx.lineTo(hubX + dx * R * 0.18 - px * 4, hubY + dy * R * 0.18 - py * 4);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.lineWidth = 1;
+                    for (var cb = 1; cb <= 4; cb++) {
+                        var f = 0.18 + cb * 0.18;
+                        var cx2 = hubX + dx * R * f, cy2 = hubY + dy * R * f;
+                        ctx.beginPath();
+                        ctx.moveTo(cx2 - px * 4, cy2 - py * 4);
+                        ctx.lineTo(cx2 + px * 26, cy2 + py * 26);
+                        ctx.stroke();
+                    }
+                }
+                ctx.fillStyle = "#16203a";
+                ctx.beginPath();
+                ctx.arc(hubX, hubY, 4, 0, 6.2832);
+                ctx.fill();
+                ctx.restore();
+            } else if (lhX > -400 && lhX < W + 400) {
                 var baseY = seaLine;
                 var towerH = H * 0.16;
                 var topY = baseY - towerH;

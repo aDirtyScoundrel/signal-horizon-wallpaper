@@ -13,7 +13,7 @@
         "Id": "dev.hadaly.signalhorizon",
         "License": "MIT",
         "Name": "Signal Horizon",
-        "Version": "1.0.0"
+        "Version": "1.1.0"
     },
     "X-KDE-ParentApp": "org.kde.plasmashell"
 }

@@ -5,7 +5,7 @@ real current night sky. One continuous scene spans all your monitors.
 
 **[▶ Open the live preview](https://adirtyscoundrel.github.io/signal-horizon-wallpaper/)**
 — the wallpaper runs in your browser with the real sky. Switch cities
-(Toronto, New York, London, Tokyo, Sydney) or view the full panorama.
+(Toronto, New York, London, Amsterdam, Tokyo, Sydney) or view the full panorama.
 
 ![animated preview](docs/preview.gif)
 
@@ -20,6 +20,8 @@ real current night sky. One continuous scene spans all your monitors.
 - A moon with a halo and a shimmering light path on the water.
 - Layered mountain silhouettes, a lighthouse with a sweeping beam, a
   distant fishing boat, and sea stacks. Stars reflect in the water.
+- Set the location to the Netherlands and the lighthouse becomes a Dutch
+  windmill with turning sails. Try Amsterdam in the live preview.
 
 The sky recomputes every minute. The scene animates at about 30 fps.
 All monitors share one wall-clock scene, so the panorama stays in sync.
@@ -34,7 +36,7 @@ All monitors share one wall-clock scene, so the panorama stays in sync.
 
 Download the tarball from the latest release, then run:
 
-    kpackagetool6 --type Plasma/Wallpaper --install signal-horizon-1.0.0.tar.gz
+    kpackagetool6 --type Plasma/Wallpaper --install signal-horizon-1.1.0.tar.gz
 
 Or install from a clone of this repository:
 
