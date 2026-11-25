@@ -36,7 +36,7 @@ All monitors share one wall-clock scene, so the panorama stays in sync.
 
 Download the tarball from the latest release, then run:
 
-    kpackagetool6 --type Plasma/Wallpaper --install signal-horizon-1.1.0.tar.gz
+    kpackagetool6 --type Plasma/Wallpaper --install signal-horizon-1.1.1.tar.gz
 
 Or install from a clone of this repository:
 
