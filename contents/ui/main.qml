@@ -186,7 +186,7 @@ WallpaperItem {
         id: cv
         anchors.fill: parent
         renderTarget: Canvas.Image
-        renderStrategy: Canvas.Threaded
+        renderStrategy: Canvas.Immediate
 
         onPaint: {
             var ctx = getContext("2d");
